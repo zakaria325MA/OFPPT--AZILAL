@@ -1,0 +1,459 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --secondary: #ec4899;
+    --accent: #8b5cf6;
+    --background: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --text: #f8fafc;
+    --text-muted: #94a3b8;
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --radius: 20px;
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.light-mode {
+    --background: #f1f5f9;
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --text: #0f172a;
+    --text-muted: #64748b;
+    --glass-border: rgba(0, 0, 0, 0.1);
+    --glass-bg: rgba(255, 255, 255, 0.5);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+    transition: background-color 0.5s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Role Specific Backgrounds --- */
+body.role-teacher {
+    --primary: #0d9488; /* Teal */
+    --accent: #0ea5e9; /* Sky Blue */
+}
+
+body.role-student {
+    --primary: #6366f1; /* Indigo */
+    --accent: #8b5cf6; /* Violet */
+}
+
+/* --- Animated Background --- */
+.bg-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    background: var(--background);
+}
+
+.bg-animation::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    opacity: 0.15;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.35;
+    animation: moveOrb 25s infinite alternate ease-in-out;
+    transition: background 1s ease;
+}
+
+.orb-1 { width: 600px; height: 600px; background: var(--primary); top: -200px; left: -100px; }
+.orb-2 { width: 500px; height: 500px; background: var(--secondary); bottom: -150px; right: -100px; animation-delay: -7s; }
+.orb-3 { width: 400px; height: 400px; background: var(--accent); top: 20%; right: 20%; animation-duration: 15s; }
+.orb-4 { width: 300px; height: 300px; background: #38bdf8; bottom: 30%; left: 10%; animation-delay: -3s; opacity: 0.1; }
+
+@keyframes moveOrb {
+    0% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(50px, 100px) scale(1.1); }
+    66% { transform: translate(-80px, 40px) scale(0.9); }
+    100% { transform: translate(0, 0) scale(1); }
+}
+
+/* --- Glassmorphism --- */
+.glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    transition: var(--transition);
+}
+
+.glass:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+.glass-card {
+    background: rgba(30, 41, 59, 0.6);
+    backdrop-filter: blur(30px) saturate(150%);
+    -webkit-backdrop-filter: blur(30px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+    transition: 0.5s;
+}
+
+.glass-card:hover::before {
+    left: 100%;
+}
+
+/* --- Auth Section --- */
+#auth-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+#main-app {
+    display: none;
+    min-height: 100vh;
+}
+
+.container {
+    padding: 100px 2rem 2rem 2rem;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+}
+
+.logo-text {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1px;
+}
+
+.role-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+}
+
+.role-btn {
+    padding: 2rem 1.5rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.role-btn i {
+    font-size: 2.5rem;
+    color: var(--primary);
+    transition: var(--transition);
+}
+
+.role-btn:hover i {
+    transform: scale(1.2) rotate(5deg);
+    color: var(--secondary);
+}
+
+.role-btn.active {
+    background: rgba(99, 102, 241, 0.15);
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+}
+
+/* Buttons & Controls */
+.lang-select {
+    width: auto;
+    margin-bottom: 0;
+    padding: 0.5rem 1rem;
+    color: var(--text);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.lang-select option {
+    background: var(--background);
+    color: var(--text);
+}
+
+.theme-toggle-btn {
+    padding: 0.6rem 1rem;
+    background: var(--glass-bg);
+}
+
+.btn {
+    padding: 0.8rem 1.8rem;
+    border-radius: 12px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: white;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.4);
+    filter: brightness(1.1);
+}
+
+/* --- Inputs --- */
+input, select {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: inherit;
+    margin-bottom: 1.2rem;
+    transition: var(--transition);
+}
+
+input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.07);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+/* --- Navigation --- */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+}
+
+.nav-tabs {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+}
+
+.nav-tab {
+    padding: 0.7rem 1.4rem;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: var(--transition);
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.nav-tab.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+}
+
+/* --- Profile --- */
+.profile-container {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--primary);
+    cursor: pointer;
+    transition: var(--transition);
+    background: var(--glass-bg);
+    position: relative;
+}
+
+.profile-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+}
+
+.profile-container::after {
+    content: "\f030";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.profile-container:hover::after {
+    opacity: 1;
+}
+
+#profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* --- Spinner --- */
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* --- Responsive --- */
+@media (max-width: 640px) {
+    .role-selector { grid-template-columns: 1fr; }
+    .auth-card { padding: 1.5rem; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .auth-container { flex-direction: column; text-align: center; gap: 2rem !important; }
+    .auth-illustration { display: none; }
+}
+
+@media (max-width: 768px) {
+    /* Header */
+    #main-app header {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    #user-info {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    /* Nav Tabs */
+    .nav-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 10px;
+        -webkit-overflow-scrolling: touch;
+    }
+    .nav-tab {
+        flex-shrink: 0;
+    }
+
+    /* Glass Cards */
+    .glass-card {
+        padding: 1rem;
+        margin: 0 0.5rem;
+    }
+
+    /* Tables */
+    table {
+        display: block !important;
+        overflow-x: auto !important;
+        white-space: nowrap;
+        width: 100%;
+        -webkit-overflow-scrolling: touch;
+    }
+    th, td {
+        padding: 0.8rem !important;
+    }
+
+    /* Override inline grids from JS */
+    div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+    }
+    
+    div[style*="grid-template-columns"] > select,
+    div[style*="grid-template-columns"] > input,
+    div[style*="grid-template-columns"] > button {
+        width: 100% !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    /* Grade Actions buttons */
+    td[style*="display: flex"] {
+        gap: 0.2rem !important;
+    }
+    td .btn {
+        padding: 0.4rem 0.6rem !important;
+        font-size: 0.75rem !important;
+    }
+}
